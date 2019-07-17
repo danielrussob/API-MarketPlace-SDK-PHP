@@ -75,10 +75,16 @@ class Token
 
     #region Private methods
 
-    private function _generateNewToken()
+    private function _generateNewToken($username = null, $password = null)
     {
-        $username = ConfigFileLoader::getInstance()->getConfAttribute('username');
-        $password = ConfigFileLoader::getInstance()->getConfAttribute('password');
+        if ($username === null) {
+            $username = ConfigFileLoader::getInstance()->getConfAttribute('username');
+        }
+
+        if ($password === null) {
+            $password = ConfigFileLoader::getInstance()->getConfAttribute('password');
+        }
+
         $urlToken = ConfigFileLoader::getInstance()->getConfAttribute('urltoken');
 
         $request = new CDSApiRequest($username, $password, $urlToken);
@@ -105,12 +111,12 @@ class Token
     /**
      * Generate a new token or return the actual active token
      */
-    public function getToken()
+    public function getToken($username = null, $password = null)
     {
         //TODO vérifier la date
 
         if (!$this->_isValid) {
-            $this->_generateNewToken();
+            $this->_generateNewToken($username, $password);
         }
         return $this->_token;
     }
