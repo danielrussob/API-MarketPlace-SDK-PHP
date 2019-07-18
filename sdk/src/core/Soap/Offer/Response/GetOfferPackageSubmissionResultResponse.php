@@ -143,10 +143,43 @@ class GetOfferPackageSubmissionResultResponse extends iResponse
 
         foreach ($offerLogXML['OfferReportLog'] as $reportXML) {
 
-            if (!isset($reportXML['LogDate'])) {
+            /*if (!isset($reportXML['LogDate'])) {
                 $isMul = false;
                 break;
+            }*/
+
+            $offerReportLog = new OfferReportLog();
+
+            /** LogDate */
+            $offerReportLog->setLogDate($reportXML['LogDate']);
+
+            /** ProductIntegrationStatus */
+            $offerReportLog->setOfferIntegrationStatus($reportXML['OfferIntegrationStatus']);
+
+            /** Product EAN */
+            $offerReportLog->setProductEan($reportXML['ProductEan']);
+
+            /** PropertyList - ProductReportPropertyLog */
+            $offerReportPropertyLog = new OfferReportPropertyLog($reportXML['PropertyList']['OfferReportPropertyLog']['PropertyCode']);
+            $offerReportPropertyLog->setLogMessage($reportXML['PropertyList']['OfferReportPropertyLog']['LogMessage']);
+            $offerReportPropertyLog->setName($reportXML['PropertyList']['OfferReportPropertyLog']['Name']);
+            $offerReportPropertyLog->setPropertyError($reportXML['PropertyList']['OfferReportPropertyLog']['PropertyError']);
+            $offerReportLog->addOfferReportPropertyLog($offerReportPropertyLog);
+
+            /** Seller Product ID */
+            $offerReportLog->setSellerProductId($reportXML['SellerProductId']);
+
+            /** SKU */
+            if (isset($reportXML['SKU'])) {
+                $offerReportLog->setSKU($reportXML['SKU']);
             }
+
+            /** Validated */
+            if ($reportXML['Validated'] == 'true') {
+                $offerReportLog->setValidated(true);
+            }
+
+            array_push($this->_offerLogList, $offerReportLog);
 
         }
 
