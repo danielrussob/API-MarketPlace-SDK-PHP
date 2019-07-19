@@ -143,10 +143,10 @@ class GetOfferPackageSubmissionResultResponse extends iResponse
 
         foreach ($offerLogXML['OfferReportLog'] as $reportXML) {
 
-            /*if (!isset($reportXML['LogDate'])) {
+            if (!isset($reportXML['SellerProductId'])) {
                 $isMul = false;
-                break;
-            }*/
+                continue;
+            }
 
             $offerReportLog = new OfferReportLog();
 
