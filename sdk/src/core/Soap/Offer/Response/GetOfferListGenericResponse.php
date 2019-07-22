@@ -56,6 +56,7 @@ class GetOfferListGenericResponse extends iResponse
 
             $offer = new Offer();
 
+            $offer->setOfferState($offerXML['OfferState']);
             $offer->setBestShippingCharges($offerXML['BestShippingCharges']);
             $offer->setComments($offerXML['Comments']);
             $offer->setCreationDate($offerXML['CreationDate']);
