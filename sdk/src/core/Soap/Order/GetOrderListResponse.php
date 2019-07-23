@@ -99,6 +99,12 @@ class GetOrderListResponse extends iResponse
                         $orderObj->setArchiveParcelList(true);
                     }
 
+                    if (array_key_exists('nil', $order['BillingAddress'])) {
+                        if ($order['BillingAddress']["nil"] == "true") {
+                            continue;
+                        }
+                    }
+
                     $address = $this->_getAddress($order['BillingAddress']);
                     $orderObj->setBillingAddress($address);
 
